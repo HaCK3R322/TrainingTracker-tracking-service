@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "User_details")
+@Table(name = "user_details")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
