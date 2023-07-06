@@ -1,6 +1,7 @@
 package com.androsov.trackingservice.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -17,6 +18,7 @@ public class Exercise {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @NotNull
     private User user;
 
     private String trainingName;

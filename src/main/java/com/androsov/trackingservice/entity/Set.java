@@ -1,6 +1,7 @@
 package com.androsov.trackingservice.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class Set {
 
     @ManyToOne
     @JoinColumn(name = "exercise_id")
+    @NotNull(message = "Exercise must not be null")
     private Exercise exercise;
 
     private Integer reps;

@@ -34,12 +34,14 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
         final String username = request.getHeader(USERNAME_HEADER);
         final String authoritiesString = request.getHeader(AUTHORITIES_HEADER);
-        final Long userId = Long.parseLong(request.getHeader(USER_ID));
+        final String userIdStr = request.getHeader(USER_ID);
 
-        if (username == null || authoritiesString == null) {
+        if (username == null || authoritiesString == null || userIdStr == null) {
             chain.doFilter(request, response);
             return;
         }
+
+        final Long userId = Long.parseLong(userIdStr);
 
         // Get user identity and set it on the spring security context
         try {
