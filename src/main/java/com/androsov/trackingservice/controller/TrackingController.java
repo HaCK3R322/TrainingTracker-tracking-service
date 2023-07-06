@@ -46,7 +46,14 @@ public class TrackingController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ExceptionMessage handleConstraintViolationException(ConstraintViolationException ex) {
-        return new ExceptionMessage(ex.getMessage());
+        StringBuilder builder = new StringBuilder();
+        ex.getConstraintViolations()
+                .forEach(constraintViolation -> {
+                    builder.append(constraintViolation.getMessage());
+                    builder.append("; ");
+                });
+
+        return new ExceptionMessage(builder.toString());
     }
 
     @Autowired
