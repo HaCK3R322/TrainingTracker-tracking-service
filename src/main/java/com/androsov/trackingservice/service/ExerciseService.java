@@ -7,6 +7,7 @@ import jakarta.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,5 +33,9 @@ public class ExerciseService {
             throw new NotFoundException("Could not find exercise with id " + id);
 
         return exercise.get();
+    }
+
+    public List<Exercise> findAllByTrainingId(Long trainingId) {
+        return exerciseRepository.findAllByTrainingId(trainingId);
     }
 }

@@ -10,6 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/tracking/exercises")
 public class ExerciseController {
@@ -27,5 +30,23 @@ public class ExerciseController {
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping(params = "trainingId")
+    public ResponseEntity<List<ExerciseDtoResponse>> getAllByTrainingId(@RequestParam Long trainingId) {
+        List<Exercise> exercises = exerciseService.findAllByTrainingId(trainingId);
+        List<ExerciseDtoResponse> exerciseDtoResponses = new ArrayList<>();
+
+        exercises.forEach(exercise -> {
+            ExerciseDtoResponse response = new ExerciseDtoResponse();
+            response.setId(exercise.getId());
+            response.setTrainingId(exercise.getTraining().getId());
+            response.setName(exercise.getName());
+            response.setUnits(exercise.getUnits());
+
+            exerciseDtoResponses.add(response);
+        });
+
+        return ResponseEntity.status(HttpStatus.OK).body(exerciseDtoResponses);
     }
 }
