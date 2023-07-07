@@ -3,23 +3,34 @@ package com.androsov.trackingservice.service;
 import com.androsov.trackingservice.dto.request.ExerciseCreateRequest;
 import com.androsov.trackingservice.entity.Exercise;
 import com.androsov.trackingservice.repository.ExerciseRepository;
+import jakarta.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class ExerciseService {
     @Autowired
     private ExerciseRepository exerciseRepository;
     @Autowired
-    private UserService userService;
+    private TrainingService trainingService;
 
-    public Exercise createAndSaveFromRequest(ExerciseCreateRequest request) {
+    public Exercise createAndSaveFromRequest(ExerciseCreateRequest request) throws NotFoundException {
         Exercise exercise = new Exercise();
         exercise.setName(request.getName());
-        exercise.setTrainingName(request.getTrainingName());
         exercise.setUnits(request.getUnits());
-        exercise.setUser(userService.getUserFromSecurityContext());
+        exercise.setTraining(trainingService.getById(request.getTrainingId()));
 
         return exerciseRepository.save(exercise);
+    }
+
+    public Exercise findById(Long id) throws NotFoundException {
+        Optional<Exercise> exercise = exerciseRepository.findById(id);
+
+        if(exercise.isEmpty())
+            throw new NotFoundException("Could not find exercise with id " + id);
+
+        return exercise.get();
     }
 }

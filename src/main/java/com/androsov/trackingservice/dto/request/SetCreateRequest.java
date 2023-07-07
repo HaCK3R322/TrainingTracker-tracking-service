@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class SetCreateRequest {
-    public Long exerciseId;
-    public Integer amount;
-    public Integer reps;
+    private Long exerciseId;
+    private Integer amount;
+    private Integer reps;
 }

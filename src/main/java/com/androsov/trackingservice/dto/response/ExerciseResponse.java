@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ExerciseResponse {
     private Integer id;
-    private String trainingName;
     private String name;
     private String units;
 }

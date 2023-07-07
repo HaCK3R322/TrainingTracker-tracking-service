@@ -15,14 +15,14 @@ public class SetService {
     @Autowired
     private SetRepository setRepository;
 
-    public Set createAndSaveFromRequest(SetCreateRequest request) {
+    @Autowired
+    private ExerciseService exerciseService;
+
+    public Set createAndSaveFromRequest(SetCreateRequest request) throws NotFoundException {
         Set set = new Set();
         set.setAmount(request.getAmount());
         set.setReps(request.getReps());
-
-        Exercise exercise = new Exercise();
-        exercise.setId(request.getExerciseId());
-        set.setExercise(exercise);
+        set.setExercise(exerciseService.findById(request.getExerciseId()));
 
         return setRepository.save(set);
     }
@@ -31,7 +31,7 @@ public class SetService {
         List<Set> sets = setRepository.findAllByExerciseId(exerciseId);
 
         if(sets.size() < 1)
-            throw new NotFoundException("Sets with exercise id " + String.valueOf(exerciseId) + " not found!");
+            throw new NotFoundException("Sets with exercise id " + exerciseId + " not found!");
 
         return sets;
     }
