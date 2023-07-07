@@ -7,6 +7,7 @@ import com.androsov.trackingservice.entity.User;
 import com.androsov.trackingservice.repository.SetRepository;
 import jakarta.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -23,7 +24,10 @@ public class SetService {
     @Autowired
     private UserService userService;
 
-    public Set createAndSaveFromRequest(SetCreateRequest request) throws NotFoundException {
+    public Set createAndSaveFromRequest(SetCreateRequest request) throws NotFoundException, AccessDeniedException {
+        if(!exerciseService.isExerciseBelongsToCurrentUserById(request.getExerciseId()))
+            throw new AccessDeniedException("Access to exercise with id " + request.getExerciseId() + " denied");
+
         Set set = new Set();
         set.setAmount(request.getAmount());
         set.setReps(request.getReps());

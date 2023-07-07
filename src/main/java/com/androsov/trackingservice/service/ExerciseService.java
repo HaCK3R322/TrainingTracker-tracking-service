@@ -48,4 +48,9 @@ public class ExerciseService {
 
         return currentUser.equals(exercisesUser);
     }
+
+    public boolean isExerciseBelongsToCurrentUserById(Long exerciseId) throws NotFoundException {
+        Exercise exercise = findById(exerciseId);
+        return isExerciseBelongsToCurrentUser(exercise);
+    }
 }
