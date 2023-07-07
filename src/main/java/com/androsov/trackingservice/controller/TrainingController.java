@@ -7,10 +7,10 @@ import com.androsov.trackingservice.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/tracking/trainings")
@@ -27,5 +27,22 @@ public class TrainingController {
         trainingDtoResponse.setUserId(training.getUser().getId());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(trainingDtoResponse);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TrainingDtoResponse>> getAllTrainings() {
+        List<Training> trainings = trainingService.getAllOfCurrentUser();
+        List<TrainingDtoResponse> trainingDtos = new ArrayList<>();
+
+        trainings.forEach(training -> {
+            TrainingDtoResponse response = new TrainingDtoResponse();
+            response.setId(training.getId());
+            response.setName(training.getName());
+            response.setUserId(training.getUser().getId());
+
+            trainingDtos.add(response);
+        });
+
+        return ResponseEntity.status(HttpStatus.OK).body(trainingDtos);
     }
 }

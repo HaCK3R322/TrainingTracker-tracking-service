@@ -8,6 +8,7 @@ import jakarta.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,6 +34,12 @@ public class TrainingService {
             throw new NotFoundException("Could not find training with id " + id);
 
         return training.get();
+    }
+
+    public List<Training> getAllOfCurrentUser() {
+        User currentUser = userService.getUserFromSecurityContext();
+
+        return trainingRepository.getAllByUser(currentUser);
     }
 
 }
