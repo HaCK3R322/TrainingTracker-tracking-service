@@ -1,6 +1,7 @@
 package com.androsov.trackingservice.controller;
 
 import com.androsov.trackingservice.dto.request.SetCreateRequest;
+import com.androsov.trackingservice.dto.response.SetResponse;
 import com.androsov.trackingservice.entity.Set;
 import com.androsov.trackingservice.service.SetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,16 +20,34 @@ public class SetController {
     private SetService setService;
 
     @PostMapping
-    public ResponseEntity<Set> createSet(@RequestBody SetCreateRequest request) {
-        Set createdSet = setService.createAndSaveFromRequest(request);
+    public ResponseEntity<SetResponse> createSet(@RequestBody SetCreateRequest request) {
+        Set set = setService.createAndSaveFromRequest(request);
+        SetResponse setResponse = new SetResponse();
+        setResponse.setId(set.getId());
+        setResponse.setReps(set.getReps());
+        setResponse.setTimestamp(set.getTimestamp());
+        setResponse.setAmount(set.getAmount());
+        setResponse.setExerciseId(set.getExercise().getId());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdSet);
+        return ResponseEntity.status(HttpStatus.CREATED).body(setResponse);
     }
 
     @GetMapping(params = "exerciseId")
-    public ResponseEntity<List<Set>> getSetsByExerciseId(@RequestParam Long exerciseId) {
+    public ResponseEntity<List<SetResponse>> getSetsByExerciseId(@RequestParam Long exerciseId) {
         List<Set> sets = setService.findAllByExerciseId(exerciseId);
+        List<SetResponse> response = new ArrayList<>();
 
-        return ResponseEntity.status(HttpStatus.OK).body(sets);
+        sets.forEach(set -> {
+            SetResponse setResponse = new SetResponse();
+            setResponse.setId(set.getId());
+            setResponse.setReps(set.getReps());
+            setResponse.setTimestamp(set.getTimestamp());
+            setResponse.setAmount(set.getAmount());
+            setResponse.setExerciseId(set.getExercise().getId());
+
+            response.add(setResponse);
+        });
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

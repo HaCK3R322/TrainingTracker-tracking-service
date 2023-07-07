@@ -8,6 +8,8 @@ import jakarta.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,6 +25,8 @@ public class SetService {
         set.setAmount(request.getAmount());
         set.setReps(request.getReps());
         set.setExercise(exerciseService.findById(request.getExerciseId()));
+
+        set.setTimestamp(new Timestamp(new Date().getTime()));
 
         return setRepository.save(set);
     }
