@@ -1,8 +1,8 @@
 package com.androsov.trackingservice.controller.advice;
 
 import com.androsov.trackingservice.dto.response.ExceptionMessage;
+import com.androsov.trackingservice.exception.NotFoundException;
 import jakarta.validation.ConstraintViolationException;
-import jakarta.ws.rs.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
