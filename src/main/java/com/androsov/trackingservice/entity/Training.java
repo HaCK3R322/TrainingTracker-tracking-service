@@ -1,26 +1,26 @@
 package com.androsov.trackingservice.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@AllArgsConstructor
+@Table(name = "training")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "exercise")
-public class Exercise {
+public class Training {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "training_id")
-    private Training training;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     private String name;
-
-    private String units;
 }

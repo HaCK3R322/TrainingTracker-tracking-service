@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
 @Entity
 @Table(name = "set")
 @NoArgsConstructor
@@ -27,5 +29,7 @@ public class Set {
     private Integer reps;
 
     private Integer amount;
+
+    private Timestamp timestamp;
 
 }
