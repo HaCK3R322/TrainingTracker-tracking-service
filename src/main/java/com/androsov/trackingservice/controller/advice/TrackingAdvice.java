@@ -4,6 +4,7 @@ import com.androsov.trackingservice.dto.response.ExceptionMessage;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.NotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,10 +26,10 @@ public class TrackingAdvice {
         return new ExceptionMessage(builder.toString());
     }
 
-    @ExceptionHandler({NotFoundException.class})
+    @ExceptionHandler({NotFoundException.class, AccessDeniedException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ExceptionMessage handleNotFoundException(NotFoundException ex) {
+    public ExceptionMessage simpleHandling(Exception ex) {
         return new ExceptionMessage(ex.getMessage());
     }
 }

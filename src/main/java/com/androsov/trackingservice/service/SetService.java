@@ -25,7 +25,7 @@ public class SetService {
     private UserService userService;
 
     public Set createAndSaveFromRequest(SetCreateRequest request) throws NotFoundException, AccessDeniedException {
-        if(!exerciseService.isExerciseBelongsToCurrentUserById(request.getExerciseId()))
+        if(!exerciseService.isCurrentUserOwnsExerciseById(request.getExerciseId()))
             throw new AccessDeniedException("Access to exercise with id " + request.getExerciseId() + " denied");
 
         Set set = new Set();
@@ -39,6 +39,9 @@ public class SetService {
     }
 
     public List<Set> findAllByExerciseId(Long exerciseId) throws NotFoundException {
+        if(!exerciseService.isCurrentUserOwnsExerciseById(exerciseId))
+            throw new AccessDeniedException("Access to exercise with id " + exerciseId + " denied");
+
         List<Set> sets = setRepository.findAllByExerciseId(exerciseId);
 
         if(sets.size() < 1)
@@ -47,10 +50,10 @@ public class SetService {
         return sets;
     }
 
-    public boolean isSetBelongsToCurrentUser(Set set) {
+    public boolean isCurrentUserOwnsSet(Set set) {
         User currentUser = userService.getUserFromSecurityContext();
         User setsUser = set.getExercise().getTraining().getUser();
 
-        return currentUser.equals(setsUser);
+        return currentUser.getId().equals(setsUser.getId());
     }
 }

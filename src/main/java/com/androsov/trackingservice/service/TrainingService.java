@@ -42,10 +42,16 @@ public class TrainingService {
         return trainingRepository.getAllByUser(currentUser);
     }
 
-    public boolean isTrainingBelongsToCurrentUser(Training training) {
+    public boolean isCurrentUserOwnsTraining(Training training) {
         User currentUser = userService.getUserFromSecurityContext();
 
-        return currentUser.equals(training.getUser());
+        return currentUser.getId().equals(training.getUser().getId());
+    }
+
+    public boolean isCurrentUserOwnsTrainingById(Long trainingId) {
+        Training training = getById(trainingId);
+
+        return isCurrentUserOwnsTraining(training);
     }
 
 }

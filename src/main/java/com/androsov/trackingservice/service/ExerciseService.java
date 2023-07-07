@@ -6,6 +6,7 @@ import com.androsov.trackingservice.entity.User;
 import com.androsov.trackingservice.repository.ExerciseRepository;
 import jakarta.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,9 @@ public class ExerciseService {
     private UserService userService;
 
     public Exercise createAndSaveFromRequest(ExerciseCreateRequest request) throws NotFoundException {
+        if(!trainingService.isCurrentUserOwnsTrainingById(request.getTrainingId()))
+            throw new AccessDeniedException("Access to training with id " + request.getTrainingId() + " denied");
+
         Exercise exercise = new Exercise();
         exercise.setName(request.getName());
         exercise.setUnits(request.getUnits());
@@ -29,7 +33,10 @@ public class ExerciseService {
         return exerciseRepository.save(exercise);
     }
 
-    public Exercise findById(Long id) throws NotFoundException {
+    public Exercise findById(Long id) throws NotFoundException, AccessDeniedException {
+        if(isCurrentUserOwnsExerciseById(id))
+            throw new AccessDeniedException("Access to training with id " + id + " denied");
+
         Optional<Exercise> exercise = exerciseRepository.findById(id);
 
         if(exercise.isEmpty())
@@ -39,18 +46,21 @@ public class ExerciseService {
     }
 
     public List<Exercise> findAllByTrainingId(Long trainingId) {
+        if(!trainingService.isCurrentUserOwnsTrainingById(trainingId))
+            throw new AccessDeniedException("Access to training with id " + trainingId + " denied");
+
         return exerciseRepository.findAllByTrainingId(trainingId);
     }
 
-    public boolean isExerciseBelongsToCurrentUser(Exercise exercise) {
+    public boolean isCurrentUserOwnsExercise(Exercise exercise) {
         User currentUser = userService.getUserFromSecurityContext();
         User exercisesUser = exercise.getTraining().getUser();
 
-        return currentUser.equals(exercisesUser);
+        return currentUser.getId().equals(exercisesUser.getId());
     }
 
-    public boolean isExerciseBelongsToCurrentUserById(Long exerciseId) throws NotFoundException {
+    public boolean isCurrentUserOwnsExerciseById(Long exerciseId) throws NotFoundException {
         Exercise exercise = findById(exerciseId);
-        return isExerciseBelongsToCurrentUser(exercise);
+        return isCurrentUserOwnsExercise(exercise);
     }
 }
