@@ -3,7 +3,6 @@ package com.androsov.trackingservice.service;
 import com.androsov.trackingservice.dto.request.SetCreateRequest;
 import com.androsov.trackingservice.entity.Exercise;
 import com.androsov.trackingservice.entity.Set;
-import com.androsov.trackingservice.entity.User;
 import com.androsov.trackingservice.repository.SetRepository;
 import jakarta.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,35 +24,23 @@ public class SetService {
     private UserService userService;
 
     public Set createAndSaveFromRequest(SetCreateRequest request) throws NotFoundException, AccessDeniedException {
-        if(!exerciseService.isCurrentUserOwnsExerciseById(request.getExerciseId()))
-            throw new AccessDeniedException("Access to exercise with id " + request.getExerciseId() + " denied");
-
         Set set = new Set();
         set.setAmount(request.getAmount());
         set.setReps(request.getReps());
-        set.setExercise(exerciseService.findById(request.getExerciseId()));
+        set.setExercise(exerciseService.getById(request.getExerciseId()));
 
         set.setTimestamp(new Timestamp(new Date().getTime()));
 
         return setRepository.save(set);
     }
 
-    public List<Set> findAllByExerciseId(Long exerciseId) throws NotFoundException {
-        if(!exerciseService.isCurrentUserOwnsExerciseById(exerciseId))
-            throw new AccessDeniedException("Access to exercise with id " + exerciseId + " denied");
-
-        List<Set> sets = setRepository.findAllByExerciseId(exerciseId);
+    public List<Set> findAllByExerciseId(Long exerciseId) throws NotFoundException, AccessDeniedException {
+        Exercise exercise = exerciseService.getById(exerciseId);
+        List<Set> sets = setRepository.findAllByExercise(exercise);
 
         if(sets.size() < 1)
             throw new NotFoundException("Sets with exercise id " + exerciseId + " not found!");
 
         return sets;
-    }
-
-    public boolean isCurrentUserOwnsSet(Set set) {
-        User currentUser = userService.getUserFromSecurityContext();
-        User setsUser = set.getExercise().getTraining().getUser();
-
-        return currentUser.getId().equals(setsUser.getId());
     }
 }

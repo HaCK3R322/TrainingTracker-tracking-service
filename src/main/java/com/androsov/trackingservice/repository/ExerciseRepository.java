@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
-    List<Exercise> findAllByTrainingId(Long trainingId);
+    List<Exercise> findAllByTraining(Training training);
 }

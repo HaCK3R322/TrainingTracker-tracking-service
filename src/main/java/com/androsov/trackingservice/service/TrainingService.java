@@ -6,6 +6,7 @@ import com.androsov.trackingservice.entity.User;
 import com.androsov.trackingservice.repository.TrainingRepository;
 import jakarta.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,11 +28,14 @@ public class TrainingService {
         return trainingRepository.save(training);
     }
 
-    public Training getById(Long id) throws NotFoundException {
+    public Training getById(Long id) throws NotFoundException, AccessDeniedException {
         Optional<Training> training = trainingRepository.findById(id);
 
         if(training.isEmpty())
             throw new NotFoundException("Could not find training with id " + id);
+
+        if(!isCurrentUserOwnsTraining(training.get()))
+            throw new AccessDeniedException("Access denied to training with id " + id);
 
         return training.get();
     }
@@ -47,11 +51,4 @@ public class TrainingService {
 
         return currentUser.getId().equals(training.getUser().getId());
     }
-
-    public boolean isCurrentUserOwnsTrainingById(Long trainingId) {
-        Training training = getById(trainingId);
-
-        return isCurrentUserOwnsTraining(training);
-    }
-
 }
