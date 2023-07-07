@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TrainingResponse {
+public class ExerciseDtoResponse {
     private Long id;
     private String name;
-    private Long userId;
+    private String units;
+    private Long trainingId;
 }

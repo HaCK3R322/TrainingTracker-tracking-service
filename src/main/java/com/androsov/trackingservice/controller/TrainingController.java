@@ -1,7 +1,7 @@
 package com.androsov.trackingservice.controller;
 
 import com.androsov.trackingservice.dto.request.TrainingCreateRequest;
-import com.androsov.trackingservice.dto.response.TrainingResponse;
+import com.androsov.trackingservice.dto.response.TrainingDtoResponse;
 import com.androsov.trackingservice.entity.Training;
 import com.androsov.trackingservice.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,13 @@ public class TrainingController {
     private TrainingService trainingService;
 
     @PostMapping
-    public ResponseEntity<TrainingResponse> createTraining(@RequestBody TrainingCreateRequest request) {
+    public ResponseEntity<TrainingDtoResponse> createTraining(@RequestBody TrainingCreateRequest request) {
         Training training = trainingService.createAndSaveFromRequest(request);
-        TrainingResponse trainingResponse = new TrainingResponse();
-        trainingResponse.setId(training.getId());
-        trainingResponse.setName(training.getName());
-        trainingResponse.setUserId(training.getUser().getId());
+        TrainingDtoResponse trainingDtoResponse = new TrainingDtoResponse();
+        trainingDtoResponse.setId(training.getId());
+        trainingDtoResponse.setName(training.getName());
+        trainingDtoResponse.setUserId(training.getUser().getId());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(trainingResponse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(trainingDtoResponse);
     }
 }

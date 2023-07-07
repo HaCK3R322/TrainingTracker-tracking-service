@@ -1,7 +1,7 @@
 package com.androsov.trackingservice.controller;
 
 import com.androsov.trackingservice.dto.request.SetCreateRequest;
-import com.androsov.trackingservice.dto.response.SetResponse;
+import com.androsov.trackingservice.dto.response.SetDtoResponse;
 import com.androsov.trackingservice.entity.Set;
 import com.androsov.trackingservice.service.SetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,32 +20,32 @@ public class SetController {
     private SetService setService;
 
     @PostMapping
-    public ResponseEntity<SetResponse> createSet(@RequestBody SetCreateRequest request) {
+    public ResponseEntity<SetDtoResponse> createSet(@RequestBody SetCreateRequest request) {
         Set set = setService.createAndSaveFromRequest(request);
-        SetResponse setResponse = new SetResponse();
-        setResponse.setId(set.getId());
-        setResponse.setReps(set.getReps());
-        setResponse.setTimestamp(set.getTimestamp());
-        setResponse.setAmount(set.getAmount());
-        setResponse.setExerciseId(set.getExercise().getId());
+        SetDtoResponse setDtoResponse = new SetDtoResponse();
+        setDtoResponse.setId(set.getId());
+        setDtoResponse.setReps(set.getReps());
+        setDtoResponse.setTimestamp(set.getTimestamp());
+        setDtoResponse.setAmount(set.getAmount());
+        setDtoResponse.setExerciseId(set.getExercise().getId());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(setResponse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(setDtoResponse);
     }
 
     @GetMapping(params = "exerciseId")
-    public ResponseEntity<List<SetResponse>> getSetsByExerciseId(@RequestParam Long exerciseId) {
+    public ResponseEntity<List<SetDtoResponse>> getSetsByExerciseId(@RequestParam Long exerciseId) {
         List<Set> sets = setService.findAllByExerciseId(exerciseId);
-        List<SetResponse> response = new ArrayList<>();
+        List<SetDtoResponse> response = new ArrayList<>();
 
         sets.forEach(set -> {
-            SetResponse setResponse = new SetResponse();
-            setResponse.setId(set.getId());
-            setResponse.setReps(set.getReps());
-            setResponse.setTimestamp(set.getTimestamp());
-            setResponse.setAmount(set.getAmount());
-            setResponse.setExerciseId(set.getExercise().getId());
+            SetDtoResponse setDtoResponse = new SetDtoResponse();
+            setDtoResponse.setId(set.getId());
+            setDtoResponse.setReps(set.getReps());
+            setDtoResponse.setTimestamp(set.getTimestamp());
+            setDtoResponse.setAmount(set.getAmount());
+            setDtoResponse.setExerciseId(set.getExercise().getId());
 
-            response.add(setResponse);
+            response.add(setDtoResponse);
         });
 
         return ResponseEntity.status(HttpStatus.OK).body(response);

@@ -1,7 +1,7 @@
 package com.androsov.trackingservice.controller;
 
 import com.androsov.trackingservice.dto.request.ExerciseCreateRequest;
-import com.androsov.trackingservice.dto.response.ExerciseResponse;
+import com.androsov.trackingservice.dto.response.ExerciseDtoResponse;
 import com.androsov.trackingservice.entity.Exercise;
 import com.androsov.trackingservice.service.ExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +17,9 @@ public class ExerciseController {
     private ExerciseService exerciseService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ExerciseResponse> createExercise(@RequestBody ExerciseCreateRequest request) {
+    public ResponseEntity<ExerciseDtoResponse> createExercise(@RequestBody ExerciseCreateRequest request) {
         Exercise createdExercise = exerciseService.createAndSaveFromRequest(request);
-        ExerciseResponse response = new ExerciseResponse();
+        ExerciseDtoResponse response = new ExerciseDtoResponse();
         response.setId(createdExercise.getId());
         response.setName(createdExercise.getName());
         response.setUnits(createdExercise.getUnits());

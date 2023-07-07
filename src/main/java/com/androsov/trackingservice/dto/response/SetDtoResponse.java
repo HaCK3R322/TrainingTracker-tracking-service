@@ -4,12 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExerciseResponse {
+public class SetDtoResponse {
     private Long id;
-    private String name;
-    private String units;
-    private Long trainingId;
+    private Integer amount;
+    private Integer reps;
+    private Timestamp timestamp;
+    private Long exerciseId;
 }
