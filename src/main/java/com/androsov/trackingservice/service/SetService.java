@@ -3,6 +3,7 @@ package com.androsov.trackingservice.service;
 import com.androsov.trackingservice.dto.request.SetCreateRequest;
 import com.androsov.trackingservice.entity.Exercise;
 import com.androsov.trackingservice.entity.Set;
+import com.androsov.trackingservice.entity.User;
 import com.androsov.trackingservice.repository.SetRepository;
 import jakarta.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class SetService {
 
     @Autowired
     private ExerciseService exerciseService;
+    @Autowired
+    private UserService userService;
 
     public Set createAndSaveFromRequest(SetCreateRequest request) throws NotFoundException {
         Set set = new Set();
@@ -38,5 +41,12 @@ public class SetService {
             throw new NotFoundException("Sets with exercise id " + exerciseId + " not found!");
 
         return sets;
+    }
+
+    public boolean isSetBelongsToCurrentUser(Set set) {
+        User currentUser = userService.getUserFromSecurityContext();
+        User setsUser = set.getExercise().getTraining().getUser();
+
+        return currentUser.equals(setsUser);
     }
 }

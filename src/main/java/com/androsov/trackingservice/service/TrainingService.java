@@ -42,4 +42,10 @@ public class TrainingService {
         return trainingRepository.getAllByUser(currentUser);
     }
 
+    public boolean isTrainingBelongsToCurrentUser(Training training) {
+        User currentUser = userService.getUserFromSecurityContext();
+
+        return currentUser.equals(training.getUser());
+    }
+
 }

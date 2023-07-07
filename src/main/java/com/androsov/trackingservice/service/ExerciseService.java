@@ -2,6 +2,7 @@ package com.androsov.trackingservice.service;
 
 import com.androsov.trackingservice.dto.request.ExerciseCreateRequest;
 import com.androsov.trackingservice.entity.Exercise;
+import com.androsov.trackingservice.entity.User;
 import com.androsov.trackingservice.repository.ExerciseRepository;
 import jakarta.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class ExerciseService {
     private ExerciseRepository exerciseRepository;
     @Autowired
     private TrainingService trainingService;
+    @Autowired
+    private UserService userService;
 
     public Exercise createAndSaveFromRequest(ExerciseCreateRequest request) throws NotFoundException {
         Exercise exercise = new Exercise();
@@ -37,5 +40,12 @@ public class ExerciseService {
 
     public List<Exercise> findAllByTrainingId(Long trainingId) {
         return exerciseRepository.findAllByTrainingId(trainingId);
+    }
+
+    public boolean isExerciseBelongsToCurrentUser(Exercise exercise) {
+        User currentUser = userService.getUserFromSecurityContext();
+        User exercisesUser = exercise.getTraining().getUser();
+
+        return currentUser.equals(exercisesUser);
     }
 }
