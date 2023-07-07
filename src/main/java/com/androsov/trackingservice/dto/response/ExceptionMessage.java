@@ -1,4 +1,4 @@
-package com.androsov.trackingservice.dto;
+package com.androsov.trackingservice.dto.response;
 
 import lombok.*;
 

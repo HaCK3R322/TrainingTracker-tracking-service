@@ -1,11 +1,9 @@
 package com.androsov.trackingservice.service;
 
-import com.androsov.trackingservice.dto.ExerciseCreateRequest;
+import com.androsov.trackingservice.dto.request.ExerciseCreateRequest;
 import com.androsov.trackingservice.entity.Exercise;
-import com.androsov.trackingservice.entity.User;
 import com.androsov.trackingservice.repository.ExerciseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
