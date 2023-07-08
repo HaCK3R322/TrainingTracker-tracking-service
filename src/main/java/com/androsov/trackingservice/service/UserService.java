@@ -1,6 +1,7 @@
 package com.androsov.trackingservice.service;
 
 import com.androsov.trackingservice.entity.User;
+import io.jsonwebtoken.lang.Assert;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +15,7 @@ public class UserService {
 
     public User getUserFromSecurityContext() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         Long id = (Long) (((Map<String, Object>) authentication.getDetails()).get("id"));
         String username = authentication.getName();
         String authorities = getAuthoritiesAsString(authentication.getAuthorities());

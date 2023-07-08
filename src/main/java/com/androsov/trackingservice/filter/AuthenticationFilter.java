@@ -46,9 +46,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
         // Get user identity and set it on the spring security context
         try {
-            logger.log(Level.INFO, "User with username " + username + " is trying to auth");
-
-
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     username,
                     "[PROTECTED]",
@@ -61,7 +58,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            logger.log(Level.INFO, "User authenticated successfully");
+            logger.log(Level.INFO, "User" + username + " authenticated successfully");
         } catch (Exception ex) {
             logger.log(Level.WARNING, ex.getMessage());
         }
