@@ -46,6 +46,13 @@ public class TrainingService {
         return trainingRepository.getAllByUser(currentUser);
     }
 
+    public Training deleteTrainingById(Long id) throws NotFoundException, AccessDeniedException {
+        Training training = getById(id);
+        trainingRepository.delete(training);
+
+        return training;
+    }
+
     public boolean isCurrentUserOwnsTraining(Training training) {
         User currentUser = userService.getUserFromSecurityContext();
 
