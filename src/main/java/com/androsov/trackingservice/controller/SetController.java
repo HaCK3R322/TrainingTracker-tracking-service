@@ -1,5 +1,6 @@
 package com.androsov.trackingservice.controller;
 
+import com.androsov.trackingservice.dto.converter.SetToDtoConverter;
 import com.androsov.trackingservice.dto.request.SetCreateRequest;
 import com.androsov.trackingservice.dto.response.SetDtoResponse;
 import com.androsov.trackingservice.entity.Set;
@@ -18,36 +19,20 @@ import java.util.List;
 public class SetController {
     @Autowired
     private SetService setService;
+    @Autowired
+    private SetToDtoConverter setToDtoConverter;
 
     @PostMapping
     public ResponseEntity<SetDtoResponse> createSet(@RequestBody SetCreateRequest request) {
         Set set = setService.createAndSaveFromRequest(request);
-        SetDtoResponse setDtoResponse = new SetDtoResponse();
-        setDtoResponse.setId(set.getId());
-        setDtoResponse.setReps(set.getReps());
-        setDtoResponse.setTimestamp(set.getTimestamp());
-        setDtoResponse.setAmount(set.getAmount());
-        setDtoResponse.setExerciseId(set.getExercise().getId());
-
+        SetDtoResponse setDtoResponse = setToDtoConverter.convert(set);
         return ResponseEntity.status(HttpStatus.CREATED).body(setDtoResponse);
     }
 
     @GetMapping(params = "exerciseId")
     public ResponseEntity<List<SetDtoResponse>> getSetsByExerciseId(@RequestParam Long exerciseId) {
         List<Set> sets = setService.findAllByExerciseId(exerciseId);
-        List<SetDtoResponse> response = new ArrayList<>();
-
-        sets.forEach(set -> {
-            SetDtoResponse setDtoResponse = new SetDtoResponse();
-            setDtoResponse.setId(set.getId());
-            setDtoResponse.setReps(set.getReps());
-            setDtoResponse.setTimestamp(set.getTimestamp());
-            setDtoResponse.setAmount(set.getAmount());
-            setDtoResponse.setExerciseId(set.getExercise().getId());
-
-            response.add(setDtoResponse);
-        });
-
+        List<SetDtoResponse> response = setToDtoConverter.convert(sets);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
