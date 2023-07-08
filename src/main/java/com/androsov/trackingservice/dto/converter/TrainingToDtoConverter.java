@@ -3,10 +3,7 @@ package com.androsov.trackingservice.dto.converter;
 import com.androsov.trackingservice.dto.response.TrainingDtoResponse;
 import com.androsov.trackingservice.entity.Training;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import java.util.ArrayList;
 import java.util.List;
