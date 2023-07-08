@@ -34,10 +34,10 @@ public class ExerciseService {
     public Exercise getById(Long id) throws NotFoundException, AccessDeniedException {
         Optional<Exercise> exercise = exerciseRepository.findById(id);
 
-        if(exercise.isEmpty())
+        if (exercise.isEmpty())
             throw new NotFoundException("Could not find exercise with id " + id);
 
-        if(!isCurrentUserOwnsExercise(exercise.get()))
+        if (!isCurrentUserOwnsExercise(exercise.get()))
             throw new AccessDeniedException("Access to training with id " + id + " denied");
 
         return exercise.get();

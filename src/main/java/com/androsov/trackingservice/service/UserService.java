@@ -14,7 +14,7 @@ public class UserService {
 
     public User getUserFromSecurityContext() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Long id = (Long)( ( (Map<String, Object>)authentication.getDetails() ).get("id") );
+        Long id = (Long) (((Map<String, Object>) authentication.getDetails()).get("id"));
         String username = authentication.getName();
         String authorities = getAuthoritiesAsString(authentication.getAuthorities());
 

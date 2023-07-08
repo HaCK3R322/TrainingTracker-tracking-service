@@ -38,7 +38,7 @@ public class SetService {
         Exercise exercise = exerciseService.getById(exerciseId);
         List<Set> sets = setRepository.findAllByExercise(exercise);
 
-        if(sets.size() < 1)
+        if (sets.size() < 1)
             throw new NotFoundException("Sets with exercise id " + exerciseId + " not found!");
 
         return sets;

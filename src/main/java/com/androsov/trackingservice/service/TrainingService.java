@@ -31,10 +31,10 @@ public class TrainingService {
     public Training getById(Long id) throws NotFoundException, AccessDeniedException {
         Optional<Training> training = trainingRepository.findById(id);
 
-        if(training.isEmpty())
+        if (training.isEmpty())
             throw new NotFoundException("Could not find training with id " + id);
 
-        if(!isCurrentUserOwnsTraining(training.get()))
+        if (!isCurrentUserOwnsTraining(training.get()))
             throw new AccessDeniedException("Access denied to training with id " + id);
 
         return training.get();
