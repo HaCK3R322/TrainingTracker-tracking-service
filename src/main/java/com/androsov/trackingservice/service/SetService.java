@@ -20,8 +20,6 @@ public class SetService {
 
     @Autowired
     private ExerciseService exerciseService;
-    @Autowired
-    private UserService userService;
 
     public Set createAndSaveFromRequest(SetCreateRequest request) throws NotFoundException, AccessDeniedException {
         Set set = new Set();
