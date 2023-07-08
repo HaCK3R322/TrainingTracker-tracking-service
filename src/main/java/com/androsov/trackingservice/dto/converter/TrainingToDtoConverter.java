@@ -24,17 +24,8 @@ public class TrainingToDtoConverter implements Converter<Training, TrainingDtoRe
     }
 
     public List<TrainingDtoResponse> convert(List<Training> sources) {
-        List<TrainingDtoResponse> trainingDtos = new ArrayList<>();
-
-        sources.forEach(training -> {
-            TrainingDtoResponse response = new TrainingDtoResponse();
-            response.setId(training.getId());
-            response.setName(training.getName());
-            response.setUserId(training.getUser().getId());
-
-            trainingDtos.add(response);
-        });
-
-        return trainingDtos;
+        List<TrainingDtoResponse> response = new ArrayList<>();
+        sources.forEach(training -> response.add(convert(training)));
+        return response;
     }
 }
