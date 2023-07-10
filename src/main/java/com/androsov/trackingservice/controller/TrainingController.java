@@ -5,15 +5,19 @@ import com.androsov.trackingservice.dto.request.TrainingCreateRequest;
 import com.androsov.trackingservice.dto.response.TrainingDtoResponse;
 import com.androsov.trackingservice.entity.Training;
 import com.androsov.trackingservice.service.TrainingService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/tracking/trainings")
+@CrossOrigin
+@Validated
 public class TrainingController {
     @Autowired
     private TrainingService trainingService;
@@ -21,7 +25,7 @@ public class TrainingController {
     private TrainingToDtoConverter trainingToDtoConverter;
 
     @PostMapping
-    public ResponseEntity<TrainingDtoResponse> createTraining(@RequestBody TrainingCreateRequest request) {
+    public ResponseEntity<TrainingDtoResponse> createTraining(@Valid @RequestBody TrainingCreateRequest request) {
         Training training = trainingService.createAndSaveFromRequest(request);
 
         TrainingDtoResponse trainingDtoResponse = trainingToDtoConverter.convert(training);

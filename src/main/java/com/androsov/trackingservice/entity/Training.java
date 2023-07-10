@@ -1,6 +1,7 @@
 package com.androsov.trackingservice.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,5 +23,6 @@ public class Training {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @NotNull(message = "Training must have name")
     private String name;
 }

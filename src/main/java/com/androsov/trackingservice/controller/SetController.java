@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/tracking/sets")
+@CrossOrigin
 public class SetController {
     @Autowired
     private SetService setService;

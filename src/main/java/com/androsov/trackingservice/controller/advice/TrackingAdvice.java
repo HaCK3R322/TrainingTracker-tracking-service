@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @ControllerAdvice
 public class TrackingAdvice {
     @ExceptionHandler({ConstraintViolationException.class})
@@ -32,4 +35,6 @@ public class TrackingAdvice {
     public ExceptionMessage simpleHandling(Exception ex) {
         return new ExceptionMessage(ex.getMessage());
     }
+
+
 }

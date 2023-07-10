@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/tracking/exercises")
+@CrossOrigin
 public class ExerciseController {
     @Autowired
     private ExerciseService exerciseService;

@@ -58,7 +58,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            logger.log(Level.INFO, "User" + username + " authenticated successfully");
+            logger.log(Level.INFO, "User " + username + " authenticated successfully");
         } catch (Exception ex) {
             logger.log(Level.WARNING, ex.getMessage());
         }
