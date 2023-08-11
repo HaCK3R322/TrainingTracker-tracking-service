@@ -2,6 +2,7 @@ package com.androsov.trackingservice.controller;
 
 import com.androsov.trackingservice.dto.converter.SetToDtoConverter;
 import com.androsov.trackingservice.dto.request.SetCreateRequest;
+import com.androsov.trackingservice.dto.request.SetPatchRequest;
 import com.androsov.trackingservice.dto.response.SetDtoResponse;
 import com.androsov.trackingservice.entity.Set;
 import com.androsov.trackingservice.service.SetService;
@@ -34,5 +35,12 @@ public class SetController {
         List<Set> sets = setService.findAllByExerciseId(exerciseId);
         List<SetDtoResponse> response = setToDtoConverter.convert(sets);
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PatchMapping
+    public ResponseEntity<SetDtoResponse> patchSet(@RequestBody SetPatchRequest request) {
+        Set set = setService.patchSet(request);
+        SetDtoResponse setDtoResponse = setToDtoConverter.convert(set);
+        return ResponseEntity.status(HttpStatus.OK).body(setDtoResponse);
     }
 }

@@ -1,6 +1,7 @@
 package com.androsov.trackingservice.service;
 
 import com.androsov.trackingservice.dto.request.SetCreateRequest;
+import com.androsov.trackingservice.dto.request.SetPatchRequest;
 import com.androsov.trackingservice.entity.Exercise;
 import com.androsov.trackingservice.entity.Set;
 import com.androsov.trackingservice.exception.NotFoundException;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SetService {
@@ -40,5 +42,19 @@ public class SetService {
             throw new NotFoundException("Sets with exercise id " + exerciseId + " not found!");
 
         return sets;
+    }
+
+    public Set patchSet(SetPatchRequest request) throws NotFoundException, AccessDeniedException {
+        Optional<Set> setOptional = setRepository.findById(request.getId());
+
+        if(setOptional.isEmpty())
+            throw new NotFoundException("Cannot patch set with id " + request.getId() + ": NotFound");
+
+        Set updatedSet = setOptional.get();
+        updatedSet.setReps(request.getReps());
+        updatedSet.setAmount(request.getAmount());
+        updatedSet.setTimestamp(request.getTimestamp());
+
+        return setRepository.save(updatedSet);
     }
 }
