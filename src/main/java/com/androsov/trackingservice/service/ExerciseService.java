@@ -6,6 +6,7 @@ import com.androsov.trackingservice.entity.Training;
 import com.androsov.trackingservice.entity.User;
 import com.androsov.trackingservice.exception.NotFoundException;
 import com.androsov.trackingservice.repository.ExerciseRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -14,13 +15,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ExerciseService {
-    @Autowired
-    private ExerciseRepository exerciseRepository;
-    @Autowired
-    private TrainingService trainingService;
-    @Autowired
-    private UserService userService;
+    private final ExerciseRepository exerciseRepository;
+    private final TrainingService trainingService;
+    private final UserService userService;
 
     public Exercise createAndSaveFromRequest(ExerciseCreateRequest request) throws NotFoundException, AccessDeniedException {
         Exercise exercise = new Exercise();
