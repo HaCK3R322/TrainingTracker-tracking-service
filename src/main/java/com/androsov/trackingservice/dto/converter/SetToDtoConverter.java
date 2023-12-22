@@ -16,7 +16,6 @@ public class SetToDtoConverter implements Converter<Set, SetDtoResponse> {
         response.setId(source.getId());
         response.setReps(source.getReps());
         response.setAmount(source.getAmount());
-        response.setTimestamp(source.getTimestamp());
         response.setExerciseId(source.getExercise().getId());
 
         return response;

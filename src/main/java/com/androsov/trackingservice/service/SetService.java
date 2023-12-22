@@ -29,8 +29,6 @@ public class SetService {
         set.setReps(request.getReps());
         set.setExercise(exerciseService.getById(request.getExerciseId()));
 
-        set.setTimestamp(new Timestamp(new Date().getTime()));
-
         return setRepository.save(set);
     }
 
@@ -53,7 +51,6 @@ public class SetService {
         Set updatedSet = setOptional.get();
         updatedSet.setReps(request.getReps());
         updatedSet.setAmount(request.getAmount());
-        updatedSet.setTimestamp(request.getTimestamp());
 
         return setRepository.save(updatedSet);
     }

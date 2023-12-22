@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,4 +30,6 @@ public class Exercise {
 
     @NotNull
     private String units;
+
+    private Timestamp timestamp;
 }

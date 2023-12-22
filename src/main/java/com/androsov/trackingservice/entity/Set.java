@@ -31,7 +31,4 @@ public class Set {
 
     @NotNull
     private Integer amount;
-
-    private Timestamp timestamp;
-
 }

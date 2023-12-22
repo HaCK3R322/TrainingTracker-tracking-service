@@ -13,6 +13,5 @@ public class SetDtoResponse {
     private Long id;
     private Integer amount;
     private Integer reps;
-    private Timestamp timestamp;
     private Long exerciseId;
 }

@@ -11,5 +11,4 @@ public class SetPatchRequest {
     private Long id;
     private Integer amount;
     private Integer reps;
-    private Timestamp timestamp;
 }

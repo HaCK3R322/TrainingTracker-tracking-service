@@ -27,6 +27,7 @@ public class ExerciseService {
         exercise.setName(request.getName());
         exercise.setUnits(request.getUnits());
         exercise.setTraining(trainingService.getById(request.getTrainingId()));
+        exercise.setTimestamp(request.getTimestamp());
 
         return exerciseRepository.save(exercise);
     }

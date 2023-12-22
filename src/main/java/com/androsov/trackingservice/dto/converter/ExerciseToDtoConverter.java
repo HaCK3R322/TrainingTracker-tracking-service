@@ -17,6 +17,7 @@ public class ExerciseToDtoConverter implements Converter<Exercise, ExerciseDtoRe
         response.setName(source.getName());
         response.setUnits(source.getUnits());
         response.setTrainingId(source.getTraining().getId());
+        response.setTimestamp(source.getTimestamp());
 
         return response;
     }
