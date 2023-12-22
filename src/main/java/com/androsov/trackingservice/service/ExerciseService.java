@@ -23,7 +23,7 @@ public class ExerciseService {
 
     private final UserService userService;
     private final TrainingService trainingService;
-    private final SetService setService;
+    private final SetRepository setRepository;
 
     public Exercise createAndSaveFromRequest(ExerciseCreateRequest request) throws NotFoundException, AccessDeniedException {
         Exercise exercise = new Exercise();
@@ -64,7 +64,9 @@ public class ExerciseService {
         Exercise exercise = getById(exerciseId);
 
         exerciseRepository.deleteById(exerciseId);
-        setService.deleteSetsByExerciseId(exerciseId);
+
+        List<Set> sets = setRepository.findAllByExercise(exercise);
+        setRepository.deleteAll(sets);
 
         return exercise;
     }

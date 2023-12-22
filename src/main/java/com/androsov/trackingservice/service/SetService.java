@@ -57,4 +57,13 @@ public class SetService {
         List<Set> sets = setRepository.findAllByExercise(exercise);
         setRepository.deleteAll(sets);
     }
+
+    public void deleteSetById(Long setId) throws NotFoundException, AccessDeniedException {
+        Optional<Set> setOptional = setRepository.findById(setId);
+
+        if(setOptional.isEmpty())
+            throw new NotFoundException("Cannot patch set with id " + setId + ": NotFound");
+
+        setRepository.delete(setOptional.get());
+    }
 }

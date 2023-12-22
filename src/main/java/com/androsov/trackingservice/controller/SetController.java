@@ -43,4 +43,10 @@ public class SetController {
         SetDtoResponse setDtoResponse = setToDtoConverter.convert(set);
         return ResponseEntity.status(HttpStatus.OK).body(setDtoResponse);
     }
+
+    @DeleteMapping(params = "setId")
+    public ResponseEntity<?> deleteSetById(@RequestParam Long setId) {
+        setService.deleteSetById(setId);
+        return ResponseEntity.ok().build();
+    }
 }
