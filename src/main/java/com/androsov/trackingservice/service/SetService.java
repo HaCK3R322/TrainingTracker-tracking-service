@@ -51,4 +51,10 @@ public class SetService {
 
         return setRepository.save(updatedSet);
     }
+
+    public void deleteSetsByExerciseId(Long exerciseId) throws NotFoundException, AccessDeniedException {
+        Exercise exercise = exerciseService.getById(exerciseId);
+        List<Set> sets = setRepository.findAllByExercise(exercise);
+        setRepository.deleteAll(sets);
+    }
 }

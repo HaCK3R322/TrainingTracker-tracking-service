@@ -2,10 +2,12 @@ package com.androsov.trackingservice.service;
 
 import com.androsov.trackingservice.dto.request.ExerciseCreateRequest;
 import com.androsov.trackingservice.entity.Exercise;
+import com.androsov.trackingservice.entity.Set;
 import com.androsov.trackingservice.entity.Training;
 import com.androsov.trackingservice.entity.User;
 import com.androsov.trackingservice.exception.NotFoundException;
 import com.androsov.trackingservice.repository.ExerciseRepository;
+import com.androsov.trackingservice.repository.SetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -18,8 +20,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ExerciseService {
     private final ExerciseRepository exerciseRepository;
-    private final TrainingService trainingService;
+
     private final UserService userService;
+    private final TrainingService trainingService;
+    private final SetService setService;
 
     public Exercise createAndSaveFromRequest(ExerciseCreateRequest request) throws NotFoundException, AccessDeniedException {
         Exercise exercise = new Exercise();
@@ -60,6 +64,7 @@ public class ExerciseService {
         Exercise exercise = getById(exerciseId);
 
         exerciseRepository.deleteById(exerciseId);
+        setService.deleteSetsByExerciseId(exerciseId);
 
         return exercise;
     }
