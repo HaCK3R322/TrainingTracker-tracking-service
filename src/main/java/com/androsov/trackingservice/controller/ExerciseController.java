@@ -35,4 +35,11 @@ public class ExerciseController {
         List<ExerciseDtoResponse> exerciseDtoResponses = exerciseToDtoConverter.convert(exercises);
         return ResponseEntity.status(HttpStatus.OK).body(exerciseDtoResponses);
     }
+
+    @DeleteMapping(params = "exerciseId")
+    public ResponseEntity<ExerciseDtoResponse> deleteExerciseById(@RequestParam Long exerciseId) {
+        Exercise deletedExercise = exerciseService.deleteById(exerciseId);
+        ExerciseDtoResponse response = exerciseToDtoConverter.convert(deletedExercise);
+        return ResponseEntity.ok().body(response);
+    }
 }

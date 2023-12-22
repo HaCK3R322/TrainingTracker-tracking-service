@@ -56,4 +56,12 @@ public class ExerciseService {
 
         return currentUser.getId().equals(exercisesUser.getId());
     }
+
+    public Exercise deleteById(Long exerciseId) throws NotFoundException, AccessDeniedException {
+        Exercise exercise = getById(exerciseId);
+
+        exerciseRepository.deleteById(exerciseId);
+
+        return exercise;
+    }
 }
