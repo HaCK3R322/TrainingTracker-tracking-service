@@ -26,9 +26,6 @@ public class Set {
     @NotNull(message = "Exercise must not be null")
     private Exercise exercise;
 
-    @NotNull
     private Integer reps;
-
-    @NotNull
     private Integer amount;
 }

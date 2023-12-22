@@ -63,10 +63,10 @@ public class ExerciseService {
     public Exercise deleteById(Long exerciseId) throws NotFoundException, AccessDeniedException {
         Exercise exercise = getById(exerciseId);
 
-        exerciseRepository.deleteById(exerciseId);
 
         List<Set> sets = setRepository.findAllByExercise(exercise);
         setRepository.deleteAll(sets);
+        exerciseRepository.deleteById(exerciseId);
 
         return exercise;
     }
