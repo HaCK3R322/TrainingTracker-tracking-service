@@ -9,6 +9,6 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class SetPatchRequest {
     private Long id;
-    private Integer amount;
+    private Double amount;
     private Integer reps;
 }

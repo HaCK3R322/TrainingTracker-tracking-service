@@ -27,5 +27,5 @@ public class Set {
     private Exercise exercise;
 
     private Integer reps;
-    private Integer amount;
+    private Double amount;
 }

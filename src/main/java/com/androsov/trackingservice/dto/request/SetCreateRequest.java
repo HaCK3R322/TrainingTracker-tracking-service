@@ -9,6 +9,6 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class SetCreateRequest {
     private Long exerciseId;
-    private Integer amount;
+    private Double amount;
     private Integer reps;
 }

@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class SetDtoResponse {
     private Long id;
-    private Integer amount;
+    private Double amount;
     private Integer reps;
     private Long exerciseId;
 }
