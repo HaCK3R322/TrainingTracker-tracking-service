@@ -5,10 +5,12 @@ import com.androsov.trackingservice.dto.request.ExerciseCreateRequest;
 import com.androsov.trackingservice.dto.response.ExerciseDtoResponse;
 import com.androsov.trackingservice.entity.Exercise;
 import com.androsov.trackingservice.service.ExerciseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,11 +18,11 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/tracking/exercises")
 @CrossOrigin
+@RequiredArgsConstructor
 public class ExerciseController {
-    @Autowired
-    private ExerciseService exerciseService;
-    @Autowired
-    private ExerciseToDtoConverter exerciseToDtoConverter;
+    private final ExerciseService exerciseService;
+
+    private final ExerciseToDtoConverter exerciseToDtoConverter;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ExerciseDtoResponse> createExercise(@RequestBody ExerciseCreateRequest request) {

@@ -6,6 +6,7 @@ import com.androsov.trackingservice.dto.request.SetPatchRequest;
 import com.androsov.trackingservice.dto.response.SetDtoResponse;
 import com.androsov.trackingservice.entity.Set;
 import com.androsov.trackingservice.service.SetService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +18,10 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/tracking/sets")
 @CrossOrigin
+@RequiredArgsConstructor
 public class SetController {
-    @Autowired
-    private SetService setService;
-    @Autowired
-    private SetToDtoConverter setToDtoConverter;
+    private final SetService setService;
+    private final SetToDtoConverter setToDtoConverter;
 
     @PostMapping
     public ResponseEntity<SetDtoResponse> createSet(@RequestBody SetCreateRequest request) {
