@@ -1,13 +1,15 @@
 package com.androsov.trackingservice.controller;
 
 import com.androsov.trackingservice.dto.converter.SetToDtoConverter;
+import com.androsov.trackingservice.dto.converter.SetsToAllSetsByTrainingIdDtoResponseConverter;
+import com.androsov.trackingservice.dto.request.GetAllSetsByTrainingIdRequest;
 import com.androsov.trackingservice.dto.request.SetCreateRequest;
 import com.androsov.trackingservice.dto.request.SetPatchRequest;
-import com.androsov.trackingservice.dto.response.SetDtoResponse;
+import com.androsov.trackingservice.dto.response.set.GetAllSetsByTrainingIdResponse;
+import com.androsov.trackingservice.dto.response.set.SetDtoResponse;
 import com.androsov.trackingservice.entity.Set;
 import com.androsov.trackingservice.service.SetService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ import java.util.List;
 public class SetController {
     private final SetService setService;
     private final SetToDtoConverter setToDtoConverter;
+    private final SetsToAllSetsByTrainingIdDtoResponseConverter setsToAllSetsByTrainingIdDtoResponseConverter;
 
     @PostMapping
     public ResponseEntity<SetDtoResponse> createSet(@RequestBody SetCreateRequest request) {
@@ -34,6 +37,15 @@ public class SetController {
     public ResponseEntity<List<SetDtoResponse>> getSetsByExerciseId(@RequestParam Long exerciseId) {
         List<Set> sets = setService.findAllByExerciseId(exerciseId);
         List<SetDtoResponse> response = setToDtoConverter.convert(sets);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping(params = "trainingId")
+    public ResponseEntity<GetAllSetsByTrainingIdResponse> getSetsByTrainingId(@RequestParam Long trainingId) {
+        List<Set> sets = setService.findAllByTrainingId(trainingId);
+
+        GetAllSetsByTrainingIdResponse response = setsToAllSetsByTrainingIdDtoResponseConverter.convert(sets);
+
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
