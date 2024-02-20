@@ -1,6 +1,6 @@
 package com.androsov.trackingservice.dto.converter;
 
-import com.androsov.trackingservice.dto.response.exercise.ExerciseDtoResponse;
+import com.androsov.trackingservice.dto.response.ExerciseDtoResponse;
 import com.androsov.trackingservice.entity.Exercise;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
