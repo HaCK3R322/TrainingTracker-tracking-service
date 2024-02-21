@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,17 +35,6 @@ public class SetService {
     public List<Set> findAllByExerciseId(Long exerciseId) throws NotFoundException, AccessDeniedException {
         Exercise exercise = exerciseService.getById(exerciseId);
         List<Set> sets = setRepository.findAllByExercise(exercise);
-
-        return sets;
-    }
-
-    public List<Set> findAllByTrainingId(Long trainingId) throws NotFoundException, AccessDeniedException {
-        List<Exercise> exercises = exerciseService.findAllByTrainingId(trainingId);
-
-        List<Set> sets = new ArrayList<>();
-        for (Exercise exercise: exercises) {
-            sets.addAll(findAllByExerciseId(exercise.getId()));
-        }
 
         return sets;
     }

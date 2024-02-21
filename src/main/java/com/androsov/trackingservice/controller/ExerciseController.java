@@ -2,13 +2,15 @@ package com.androsov.trackingservice.controller;
 
 import com.androsov.trackingservice.dto.converter.ExerciseToDtoConverter;
 import com.androsov.trackingservice.dto.request.ExerciseCreateRequest;
-import com.androsov.trackingservice.dto.response.exercise.ExerciseDtoResponse;
+import com.androsov.trackingservice.dto.response.ExerciseDtoResponse;
 import com.androsov.trackingservice.entity.Exercise;
 import com.androsov.trackingservice.service.ExerciseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
