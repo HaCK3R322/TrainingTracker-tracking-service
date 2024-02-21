@@ -1,4 +1,4 @@
-package com.androsov.trackingservice.dto.response;
+package com.androsov.trackingservice.dto.response.exercise;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
