@@ -3,7 +3,6 @@ package com.androsov.trackingservice.controller;
 import com.androsov.trackingservice.dto.converter.ExerciseToDtoConverter;
 import com.androsov.trackingservice.dto.request.ExerciseCreateRequest;
 import com.androsov.trackingservice.dto.response.exercise.ExerciseDtoResponse;
-import com.androsov.trackingservice.dto.response.exercise.ExerciseWithSetsDtoResponse;
 import com.androsov.trackingservice.entity.Exercise;
 import com.androsov.trackingservice.service.ExerciseService;
 import lombok.RequiredArgsConstructor;
@@ -36,12 +35,6 @@ public class ExerciseController {
         List<ExerciseDtoResponse> exerciseDtoResponses = exerciseToDtoConverter.convert(exercises);
         return ResponseEntity.status(HttpStatus.OK).body(exerciseDtoResponses);
     }
-
-    @GetMapping
-    public ResponseEntity<List<ExerciseWithSetsDtoResponse>> getAllWithSetsByTrainingId() {
-        return null;
-    }
-    // TODO: write this down
 
     @DeleteMapping(params = "exerciseId")
     public ResponseEntity<ExerciseDtoResponse> deleteExerciseById(@RequestParam Long exerciseId) {
