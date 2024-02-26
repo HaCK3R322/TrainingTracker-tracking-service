@@ -9,6 +9,7 @@ import com.androsov.trackingservice.entity.Exercise;
 import com.androsov.trackingservice.entity.Set;
 import com.androsov.trackingservice.service.ExerciseService;
 import com.androsov.trackingservice.service.SetService;
+import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,10 +26,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ExerciseController {
     private final ExerciseService exerciseService;
-    private final SetService setService;
 
     private final ExerciseToDtoConverter exerciseToDtoConverter;
     private final ExerciseToExerciseWithSetsDtoConverter exerciseToExerciseWithSetsDtoConverter;
+    private final SetService setService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ExerciseDtoResponse> createExercise(@RequestBody ExerciseCreateRequest request) {
@@ -45,18 +46,19 @@ public class ExerciseController {
     }
 
     @GetMapping(params = {"trainingId", "withSets"})
-    public ResponseEntity<List<ExerciseWithSetsDtoResponse>> getAllWithSetsByTrainingId(@RequestParam Long trainingId, @RequestParam Boolean withSets) {
+    public ResponseEntity<List<ExerciseWithSetsDtoResponse>> getAllByTrainingIdWithSets(@RequestParam Long trainingId, @RequestParam Boolean withSets) {
         List<Exercise> exercises = exerciseService.findAllByTrainingId(trainingId);
+
         Map<Exercise, List<Set>> map = new HashMap<>();
 
-        for(Exercise exercise: exercises) {
+        for (Exercise exercise: exercises) {
             List<Set> sets = setService.findAllByExerciseId(exercise.getId());
             map.put(exercise, sets);
         }
 
         List<ExerciseWithSetsDtoResponse> response = exerciseToExerciseWithSetsDtoConverter.convert(map);
 
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.ok().body(response);
     }
 
     @DeleteMapping(params = "exerciseId")
