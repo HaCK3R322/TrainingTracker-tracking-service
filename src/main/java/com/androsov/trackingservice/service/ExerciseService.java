@@ -1,6 +1,7 @@
 package com.androsov.trackingservice.service;
 
 import com.androsov.trackingservice.dto.request.ExerciseCreateRequest;
+import com.androsov.trackingservice.dto.request.ExercisePutRequest;
 import com.androsov.trackingservice.entity.Exercise;
 import com.androsov.trackingservice.entity.Set;
 import com.androsov.trackingservice.entity.Training;
@@ -69,5 +70,21 @@ public class ExerciseService {
         exerciseRepository.deleteById(exerciseId);
 
         return exercise;
+    }
+
+    /**
+     * Replaces all fields (except for id and training id) to new one's
+     * @param request - {@link  ExercisePutRequest}
+     * @return updated exercise {@link  Exercise}
+     * @throws NotFoundException - if no exercise with provided id
+     * @throws AccessDeniedException - if exercise with id found, but user has no access to it
+     */
+    public Exercise update(ExercisePutRequest request) throws NotFoundException, AccessDeniedException {
+        Exercise exercise = getById(request.getId());
+        exercise.setName(request.getName());
+        exercise.setUnits(request.getUnits());
+        exercise.setTimestamp(request.getTimestamp());
+
+        return exerciseRepository.save(exercise);
     }
 }

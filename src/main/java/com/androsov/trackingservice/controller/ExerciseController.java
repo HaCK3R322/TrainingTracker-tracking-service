@@ -3,6 +3,7 @@ package com.androsov.trackingservice.controller;
 import com.androsov.trackingservice.dto.converter.ExerciseToDtoConverter;
 import com.androsov.trackingservice.dto.converter.ExerciseToExerciseWithSetsDtoConverter;
 import com.androsov.trackingservice.dto.request.ExerciseCreateRequest;
+import com.androsov.trackingservice.dto.request.ExercisePutRequest;
 import com.androsov.trackingservice.dto.response.exercise.ExerciseDtoResponse;
 import com.androsov.trackingservice.dto.response.exercise.ExerciseWithSetsDtoResponse;
 import com.androsov.trackingservice.entity.Exercise;
@@ -59,6 +60,13 @@ public class ExerciseController {
         List<ExerciseWithSetsDtoResponse> response = exerciseToExerciseWithSetsDtoConverter.convert(map);
 
         return ResponseEntity.ok().body(response);
+    }
+
+    @PutMapping
+    public ResponseEntity<ExerciseDtoResponse> putExercise(@RequestBody ExercisePutRequest request) {
+        Exercise updatedExercise = exerciseService.update(request);
+        ExerciseDtoResponse dtoResponse = exerciseToDtoConverter.convert(updatedExercise);
+        return ResponseEntity.ok().body(dtoResponse);
     }
 
     @DeleteMapping(params = "exerciseId")
